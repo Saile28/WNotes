@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wnotes - Bloco de Notas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-family: 'Arial', sans-serif;
+            font-size: 40px;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .social-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background: linear-gradient(90deg, #69C9D0, #F9316D);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .social-button:hover {
+            background: linear-gradient(90deg, #F9316D, #69C9D0);
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .header button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .header button:hover {
+            background-color: #45a049;
+        }
+
+        .textarea-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            resize: none;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #f39c12;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #e67e22;
+        }
+
+        .save-button {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .save-button:hover {
+            background-color: #3498db;
+        }
+
+        .download-button {
+            padding: 10px 20px;
+            background-color: #8e44ad;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .download-button:hover {
+            background-color: #9b59b6;
+        }
+
+        .donation-button {
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .donation-button:hover {
+            background-color: #c0392b;
+        }
+
+        .donation-info {
+            font-size: 16px;
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Wnotes</h1>
+
+    <!-- Botão Redes Sociais -->
+    <button class="social-button" onclick="window.open('https://vm.tiktok.com/ZMkuDbkbk/', '_blank')">Redes Sociais</button>
+
+    <div class="container" id="inicio">
+        <div class="header">
+            <h1>Meus Projetos</h1>
+            <button onclick="irParaBlocoDeNotass()">Criar Novo Projeto</button>
+        </div>
+
+        <div class="project-list" id="project-list"></div>
+        
+        <!-- Botão de Doação -->
+        <button class="donation-button" onclick="mostrarChavePix()">Doar</button>
+        <p class="donation-info" id="donation-info">Chave Pix: db1e2172-4e8d-4fb1-90e8-c01613faf237</p>
+    </div>
+
+    <!-- Bloco de Notas -->
+    <div class="container" id="bloco-de-notas" style="display: none;">
+        <div class="header">
+            <h1>Bloco de Notas</h1>
+            <button onclick="salvarProjeto()">Salvar Projeto</button>
+        </div>
+
+        <div class="textarea-container">
+            <input type="text" id="titulo" placeholder="Título do Projeto">
+            <textarea id="texto" placeholder="Digite suas anotações aqui..."></textarea>
+            <p class="message" id="message"></p>
+        </div>
+
+        <!-- Botões de salvar e download -->
+        <button class="download-button" onclick="baixarTexto()">Baixar Texto</button>
+        <button class="back-button" onclick="voltarTelaInicio()">Voltar à Tela Inicial</button>
+    </div>
+
+    <script>
+        // Controle de projetos
+        let projetos = JSON.parse(localStorage.getItem("projetos")) || [];
+
+        // Função para mudar para a tela de bloco de notas
+        function irParaBlocoDeNotass() {
+            document.getElementById("inicio").style.display = "none";
+            document.getElementById("bloco-de-notas").style.display = "block";
+        }
+
+        // Função para voltar à tela inicial
+        function voltarTelaInicio() {
+            document.getElementById("bloco-de-notas").style.display = "none";
+            document.getElementById("inicio").style.display = "block";
+        }
+
+        // Função para salvar o projeto
+        function salvarProjeto() {
+            const titulo = document.getElementById('titulo').value;
+            const texto = document.getElementById('texto').value;
+            
+            if (!titulo || !texto) {
+                alert("Por favor, forneça um título e conteúdo para o projeto!");
+                return;
+            }
+
+            const novoProjeto = { titulo, texto };
+
+            // Adiciona o novo projeto ao array
+            projetos.push(novoProjeto);
+
+            // Atualiza o localStorage
+            localStorage.setItem("projetos", JSON.stringify(projetos));
+
+            // Volta para a tela inicial
+            document.getElementById("bloco-de-notas").style.display = "none";
+            document.getElementById("inicio").style.display = "block";
+        }
+
+        // Função para baixar o texto como um arquivo
+        function baixarTexto() {
+            const titulo = document.getElementById('titulo').value;
+            const texto = document.getElementById('texto').value;
+            
+            const blob = new Blob([texto], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = titulo ? `${titulo}.txt` : 'projeto.txt';
+            link.click();
+        }
+
+        // Função para mostrar a chave Pix
+        function mostrarChavePix() {
+            const chavePixElement = document.getElementById("donation-info");
+            chavePixElement.style.display = chavePixElement.style.display === "none" ? "block" : "none";
+        }
+
+        // Inicializa a tela com os projetos salvos
+        atualizarProjetos();
+    </script>
+</body>
+</html>
