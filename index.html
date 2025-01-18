@@ -173,6 +173,45 @@
             margin-top: 10px;
             display: none;
         }
+
+        .emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 50px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            overflow-y: auto;
+        }
+
+        .emoji {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            /* Adapte o layout para dispositivos móveis */
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .textarea-container textarea {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -211,6 +250,20 @@
         <!-- Botões de salvar e download -->
         <button class="download-button" onclick="baixarTexto()">Baixar Texto</button>
         <button class="back-button" onclick="voltarTelaInicio()">Voltar à Tela Inicial</button>
+
+        <!-- Botões Adicionais -->
+        <button class="save-button" onclick="limparTexto()">Limpar Texto</button>
+        <button class="save-button" onclick="editarFonte()">Editar Fonte</button>
+        <button class="save-button" onclick="toggleEmojiPicker()">Adicionar Emoji</button>
+    </div>
+
+    <div id="emoji-picker" class="emoji-picker">
+        <span class="emoji" onclick="adicionarEmoji('😊')">😊</span>
+        <span class="emoji" onclick="adicionarEmoji('😂')">😂</span>
+        <span class="emoji" onclick="adicionarEmoji('😎')">😎</span>
+        <span class="emoji" onclick="adicionarEmoji('😢')">😢</span>
+        <span class="emoji" onclick="adicionarEmoji('😍')">😍</span>
+        <!-- Adicione mais emojis conforme necessário -->
     </div>
 
     <script>
@@ -268,6 +321,37 @@
         function mostrarChavePix() {
             const chavePixElement = document.getElementById("donation-info");
             chavePixElement.style.display = chavePixElement.style.display === "none" ? "block" : "none";
+        }
+
+        // Função para limpar o texto
+        function limparTexto() {
+            document.getElementById('texto').value = '';
+        }
+
+        // Função para editar a fonte do texto selecionado
+        function editarFonte() {
+            const texto = document.getElementById('texto');
+            const selectedText = window.getSelection().toString();
+
+            if (selectedText) {
+                const newFont = prompt("Escolha o estilo da fonte (ex: 'Arial', 'Verdana'): ");
+                document.execCommand('fontName', false, newFont);
+            } else {
+                alert("Selecione o texto primeiro para editar a fonte.");
+            }
+        }
+
+        // Função para alternar o seletor de emojis
+        function toggleEmojiPicker() {
+            const picker = document.getElementById("emoji-picker");
+            picker.style.display = picker.style.display === "none" || picker.style.display === "" ? "block" : "none";
+        }
+
+        // Função para adicionar emoji ao texto
+        function adicionarEmoji(emoji) {
+            const textoArea = document.getElementById('texto');
+            textoArea.value += emoji;
+            toggleEmojiPicker();  // Fecha o seletor de emoji após escolher
         }
 
         // Inicializa a tela com os projetos salvos
